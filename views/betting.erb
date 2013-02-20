@@ -1,0 +1,10 @@
+<% if session[:money] <= 0 %>
+	<h1>Sorry chap, you're broke. Beat it.</h1>
+<% else %>
+	<h1>You have $<%= session[:money]%>. How much would you like to bet?</h1>
+	<br>
+	<form action = '/betting' method = 'post' >
+		<input type = 'number' name = "bet"/>
+		<input type = "submit" class = "btn"/>
+	</form>
+<% end %>

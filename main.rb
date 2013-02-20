@@ -20,16 +20,39 @@ get '/set_player_names' do
 end
 
 get '/goodbye' do
+	session[:playername] = nil
+	session[:money] = nil
 	erb :goodbye
 end
 
 post '/set_player_names' do
-	puts params['name']
 	if params['name'].empty?
 		@error = "Must input a name, no matter how wonky!"
 		erb :set_player_names
 	else
 		session[:name] = params['name']
+		session[:money] = 1000
+		redirect '/game'
+	end
+end
+
+###############################
+get '/betting' do
+	erb :betting
+end
+
+post '/betting' do
+	if params['bet'].to_i == 0
+		@error = "Must input a positive number using only digits 0-9!"
+		erb :betting
+	elsif params['bet'].to_i > session[:money]
+		@error = "Nice try, but you can't bet more than you have."
+		erb :betting
+	elsif params['bet'].to_i < 0
+		@error = "Nice try, but you can't wager a negative."
+		erb :betting
+	else
+		session[:bet] = params['bet'].to_i
 		redirect '/game'
 	end
 end
@@ -56,8 +79,10 @@ get '/game' do
 		session[:dealer_cards] << session[:deck].pop
 	end
 
+	#Calculate player totals
 	@player_total = total_calc(session[:player_cards])
 	@dealer_total = total_calc(session[:dealer_cards])
+	
 	#direct to appropriate template
 	erb :blackjack
 
@@ -80,7 +105,7 @@ post '/game' do
 		end
 		@game_over = true
 	elsif params['play_again'] == "Yes"
-		redirect '/game'
+		redirect '/betting'
 	else
 		redirect '/goodbye'
 	end
@@ -93,7 +118,6 @@ post '/game' do
 	end
 	erb :blackjack
 end
-
 
 ###############################
 helpers do
@@ -118,14 +142,18 @@ helpers do
 
 	def resolve_game(player_total,dealer_total)
 		if player_total > 21
+			session[:money] -= session[:bet]
 			"Sorry, you busted! You lose!"
 		elsif dealer_total > 21
+			session[:money] += session[:bet]
 			"Dealer busted! You win!"
 		elsif player_total == dealer_total
 			"Tie game! Better than losing, no?"
 		elsif player_total > dealer_total
+			session[:money] += session[:bet]
 			"Your score beats dealer's score. You win!"
 		elsif player_total < dealer_total
+			session[:money] -= session[:bet]
 			"Dealer score beats your score. You lose!"
 		else
 			"Something happened. I can't count. Sorry."
