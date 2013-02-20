@@ -1,0 +1,39 @@
+<h1>Welcome to Blackjack, <%= session[:name]%>!</h1>
+<br>
+
+
+<% if @game_over == true %>
+	<h3><u>Dealer's cards:</u></h3>
+	<h4><% session[:dealer_cards].each do |card| %>
+		<%= card[0].to_s+card[1].to_s %>
+		<br>
+	<% end %></h4>
+	<br>
+	<h3><u>Your cards:</u><h3>
+	<h4><% session[:player_cards].each do |card| %>
+		<%= card[0].to_s+card[1].to_s %>
+		<br>
+	<% end %></h4>
+	<p>Your hand value is <%= @player_total %>. Dealer's hand value is <%= @dealer_total %>. <%= @outcome %> </p>
+	<p>Would you like to play again?</p>
+	<form action = '/game' method = 'post' >
+		<input class = "btn btn-success btn-large" type = "submit" value = "Yes" name='play_again'>
+		<input class = "btn btn-danger btn-large" type = "submit" value = "No" name='play_again'/>
+
+<% else %>
+	<h3><u>Dealer's known card:</u></h3>
+	<h4><%= session[:dealer_cards][0][0]%><%= session[:dealer_cards][0][1]%></h4>
+	<br>
+	<h3><u>Your cards:</u><h3>
+	<h4><% session[:player_cards].each do |card| %>
+		<%= card[0].to_s+card[1].to_s %>
+		<br>
+	<% end %></h4>
+	<p>Your hand value is <%= @player_total %>. Would you like to hit or stand?</p>
+	<form action = '/game' method = 'post' >
+		<input class = "btn btn-success btn-large" type = "submit" value = "Hit" name='choice'>
+		<input class = "btn btn-danger btn-large" type = "submit" value = "Stand" name='choice'/>
+<% end %>
+
+
+
