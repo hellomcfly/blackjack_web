@@ -32,7 +32,7 @@ post '/set_player_names' do
 	else
 		session[:name] = params['name']
 		session[:money] = 1000
-		redirect '/game'
+		redirect '/betting'
 	end
 end
 
