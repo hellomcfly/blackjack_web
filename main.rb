@@ -136,7 +136,7 @@ helpers do
 		end
 		total
 
-	    card_array[0].select{|element| element == "Ace"}.count.times do
+	    card_array.select{|element| element[0] == "Ace"}.count.times do
 	      break if total <= 21
 	      total -= 10
 	    end
