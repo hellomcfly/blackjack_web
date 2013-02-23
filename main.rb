@@ -8,9 +8,11 @@ require 'sinatra/reloader'
 ##################################
 set :sessions, true
 
-before do ##ACOUNTED
+before do
 	@game_over = false
 end 
+
+
 
 ##################################
 #### Start and End ###############
@@ -103,25 +105,12 @@ get '/blackjack' do
 
 end 
 
-post '/blackjack/hit_or_stand' do 
-	if params['choice'] == "Hit" 
-		session[:player_cards] << session[:deck].pop
-		@player_total = total_calc(session[:player_cards])
-		if @player_total >= 21 
-			@game_over = true
-		end 
-	elsif params['choice'] == "Stand"
-		@dealer_total = total_calc(session[:dealer_cards])
-		while @dealer_total < 17 
-			session[:dealer_cards] << session[:deck].pop
-			@dealer_total = total_calc(session[:dealer_cards])
-		end 
-		@game_over = true
-	end 
-
+post '/blackjack/player/hit' do 
+	session[:player_cards] << session[:deck].pop
 	@player_total = total_calc(session[:player_cards])
-	@dealer_total = total_calc(session[:dealer_cards])
-
+	if @player_total >= 21 
+		@game_over = true
+	end
 	if @game_over == true 
 		outcome = resolve_game(@player_total, @dealer_total)
 		if outcome[0] == 1
@@ -131,6 +120,36 @@ post '/blackjack/hit_or_stand' do
 			@error = outcome[1]
 			@error
 		end
+	end 
+	erb :blackjack
+end
+
+post '/blackjack/player/stand' do
+	@success = "You've chosen to stand. Are you ready for the results?"
+	@dealer_suspense = true
+	erb :blackjack
+end
+
+
+post '/blackjack/dealer/conclude' do
+	@dealer_total = total_calc(session[:dealer_cards])
+	while @dealer_total < 17 
+		session[:dealer_cards] << session[:deck].pop
+		@dealer_total = total_calc(session[:dealer_cards])
+	end 
+	@game_over = true
+
+	@player_total = total_calc(session[:player_cards])
+	@dealer_total = total_calc(session[:dealer_cards])
+
+	
+	outcome = resolve_game(@player_total, @dealer_total)
+	if outcome[0] == 1
+		@success = outcome[1]
+		@success
+	else
+		@error = outcome[1]
+		@error
 	end 
 	erb :blackjack
 end 

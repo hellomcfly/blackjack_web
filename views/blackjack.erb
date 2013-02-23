@@ -3,51 +3,63 @@
 
 <% if @game_over == true %>
 	<div class="well well-small" id="mine">
-	<h3><u>Dealer's cards:</u></h3>
-	<h4><% session[:dealer_cards].each do |card| %>
-		<%= card_image(card) %>
-	<% end %></h4>
-	<p>Dealer's hand value: <strong><%= @dealer_total %>. </strong></p>
+		<h3><u>Dealer's cards:</u></h3>
+			<p><% session[:dealer_cards].each do |card| %>
+				<%= card_image(card) %>
+			<% end %></p>
+			<p>Dealer's hand value: <strong><%= @dealer_total %>. </strong></p>
 	</div>
 	<br>
 	<div class="well well-small" id="mine">
-	<h3><u>Your cards:</u><h3>
-	<h4><% session[:player_cards].each do |card| %>
-		<%= card_image(card) %>
-	<% end %></h4>
-	<p>Your hand value: <strong><%= @player_total %></strong>
-	</p>
+		<h3><u>Your cards:</u></h3>
+			<p><% session[:player_cards].each do |card| %>
+				<%= card_image(card) %>
+			<% end %></p>
+			<p>Your hand value: <strong><%= @player_total %></strong></p>
 	</div>
+	<br>
 	<div class="well well-small" id="mine">
-	<p>Would you like to play again? You now have <u>$<%=session[:money]%></u> remaining.</p>
-
-	<form action = '/blackjack/play_again' method = 'post' >
-		<input class = "btn btn-success btn-large" type = "submit" value = "Yes" name='play_again'>
-		<input class = "btn btn-danger btn-large" type = "submit" value = "No" name='play_again'/>
+		<p>Would you like to play again? You now have <u>$<%=session[:money]%></u> remaining.</p>
+		<form action = '/blackjack/play_again' method = 'post' >
+			<input class = "btn btn-success btn-large" type = "submit" value = "Yes" name='play_again'>
+			<input class = "btn btn-danger btn-large" type = "submit" value = "No" name='play_again'/>
 	</div>
 
 <% else %>
 	<div class="well well-small" id="mine" >
-	<h3><u>Dealer's cards:</u></h3>
-	<h4><img src='/images/cards/cover.jpg' class='img-polaroid' height='120' width='84'/>
-		<%= card_image(session[:dealer_cards][0])%></h4>
+		<h3><u>Dealer's cards:</u></h3>
+			<p><img src='/images/cards/cover.jpg' class='img-polaroid' height='120' width='84'/>
+			<%= card_image(session[:dealer_cards][1])%></p>
+			<% if @dealer_suspense == true %>
+				<form action = '/blackjack/dealer/conclude' method = 'post' >
+					<input class = "btn btn-primary" type = "submit" value = "Show Dealer's Cards" />
+				</form>
+			<% end %>
 	</div>
 	<br>
 	<div class="well well-small" id="mine">
-	<h3><u>Your cards:</u><h3>
-	<h4><% session[:player_cards].each do |card| %>
-		<%= card_image(card) %>
-	<% end %></h4>
-	<p>Your hand value: <strong><%= @player_total %></strong></p> 
+		<h3><u>Your cards:</u><h3>
+			<p><% session[:player_cards].each do |card| %>
+			<%= card_image(card) %>
+			<% end %></p>
+			<p>Your hand value: <strong><%= @player_total %></strong></p> 
 	</div>
 	<br>
-	<div class="well well-small" id="mine">
-	<p>Money left: <u>$<%=session[:money]%></u><br>
-	Current wager: <u>$<%=session[:bet]%></u></p>
-	Would you like to hit or stand?</p>
-	<form action = '/blackjack/hit_or_stand' method = 'post' >
-		<input class = "btn btn-success btn-large" type = "submit" value = "Hit" name='choice' />
-		<input class = "btn btn-danger btn-large" type = "submit" value = "Stand" name='choice'/>
+	<div class="well well-small" id="mine" style="padding-bottom:1.5cm;">
+		<p>Money left: <u>$<%=session[:money]%></u><br>
+		Current wager: <u>$<%=session[:bet]%></u></p>
+		<% if @dealer_suspense != true %>
+			<p>Would you like to hit or stand?</p>
+			<p><form action = '/blackjack/player/hit' method = 'post' style="float: left; margin-right: 10px">
+				<input class = "btn btn-success btn-large" type = "submit" value = "Hit" />
+			</form>
+			<form action = '/blackjack/player/stand' method = 'post' style="float: left">
+				<input class = "btn btn-danger btn-large" type = "submit" value = "Stand" />
+			</form></p>
+		<% else %>
+			<input class = "btn btn-danger btn-large disabled" type = "submit" value = "Hit" style="float: left; margin-right: 10px"/>
+			<input class = "btn btn-success btn-large disabled" type = "submit" value = "Stand" style="float: left"/>
+		<% end %>
 	</div>
 <% end %>
 
