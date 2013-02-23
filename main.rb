@@ -183,7 +183,7 @@ helpers do
 			session[:money] += session[:bet]
 			[1,"You hit blackjack! You win!"]
 		elsif dealer_total == 21
-			session[:money] += session[:bet]
+			session[:money] -= session[:bet]
 			[0,"Dealer hit blackjack! You lose."]
 		elsif player_total > dealer_total
 			session[:money] += session[:bet]
