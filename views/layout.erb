@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>My First App</title>
+    <title>Sam's Casino - Blackjack</title>
     <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/application.css">
   </head>
-  <body style="padding-top: 50px;">
+  <body style="padding-top: 50px; background-image: url('/images/cartographer.png'">
 
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
             <ul class="nav">
-              <li><a href="/">Nav Item</a></li>
+              <li><a href="/">Start Over</a></li>
+              <li><a href="http://entertainment.howstuffworks.com/how-to-play-blackjack.htm">How to Play</a></li>
+              <li><a href="http://www.amazon.com/Blackjack-For-Blood-Card-Counters-Complete/dp/0935926232/ref=sr_1_cc_1?s=aps&ie=UTF8&qid=1361583102&sr=1-1-catcorr&keywords=counting+cards">You Should Buy This</a></li>
+              <li><a href="http://www.amazon.com/Alpha-Protocol-Pc/dp/B0016G88RO/ref=sr_1_2?ie=UTF8&qid=1361583135&sr=8-2&keywords=alpha+protocol">You Should Play This</a></li>
             </ul>
         </div>
       </div>
@@ -21,7 +24,12 @@
     <%if @error %>
       <div class="alert alert-error"><%=@error%></div>
     <% end %>
+    <%if @success %>
+      <div class="alert alert-success"><%=@success%></div>
+    <% end %>
       <%= yield %>
   </div>
   </body>
 </html>
+
+<a href="http://www.tomscott.com/weather/starwars/" style="color:#223250">secret</a>

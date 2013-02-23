@@ -1,11 +1,18 @@
 <% if session[:money] <= 0 %>
-	<h1>Sorry chap, you're broke. Beat it.</h1>
+	<h2>Sorry chap, you're broke. Beat it.
+		<br><br>
+		<img src="/images/broke.jpg" class="img-rounded" align="middle"/>
+		<br><br>
+		Maybe get <a href="http://www.gamblersanonymous.org/">some help</a>, huh?</h2>
+	
 <% else %>
-	<h1>You have $<%= session[:money]%>. How much would you like to bet?</h1>
+	<h2>You have $<%= session[:money]%>. How much would you like to bet?</h2>
+	<div class="well well-small"  id="mine">
 	<br>
 	<form action = '/betting' method = 'post' >
 		<input type = 'number' name = "bet"/>
 		<br>
-		<input type = "submit" class = "btn"/>
+		<input type = "submit" class = "btn btn-primary btn-large"/ value = "Be Careful!"/>
 	</form>
 <% end %>
+</div>
