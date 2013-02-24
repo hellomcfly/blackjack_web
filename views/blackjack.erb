@@ -18,7 +18,7 @@
 			<p>Your hand value: <strong><%= @player_total %></strong></p>
 	</div>
 	<br>
-	<div class="well well-small" id="mine">
+	<div class="well well-small mine">
 		<p>Would you like to play again? You now have <u>$<%=session[:money]%></u> remaining.</p>
 		<form action = '/blackjack/play_again' method = 'post' >
 			<input class = "btn btn-success btn-large" type = "submit" value = "Yes" name='play_again'>
@@ -26,7 +26,7 @@
 	</div>
 
 <% else %>
-	<div class="well well-small" id="mine" >
+	<div class="well well-small mine">
 		<h3><u>Dealer's cards:</u></h3>
 			<p><img src='/images/cards/cover.jpg' class='img-polaroid' height='120' width='84'/>
 			<%= card_image(session[:dealer_cards][1])%></p>
@@ -37,7 +37,7 @@
 			<% end %>
 	</div>
 	<br>
-	<div class="well well-small" id="mine">
+	<div class="well well-small mine">
 		<h3><u>Your cards:</u></h3>
 			<p><% session[:player_cards].each do |card| %>
 			<%= card_image(card) %>
@@ -45,7 +45,7 @@
 			<p>Your hand value: <strong><%= @player_total %></strong></p> 
 	</div>
 	<br>
-	<div class="well well-small" id="mine" style="padding-bottom:1.5cm;">
+	<div class="well well-small mine" style="padding-bottom:1.5cm;">
 		<p>Money left: <u>$<%=session[:money]%></u><br>
 		Current wager: <u>$<%=session[:bet]%></u></p>
 		<% if @dealer_suspense != true %>

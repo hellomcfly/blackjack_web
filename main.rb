@@ -126,6 +126,7 @@ end
 
 post '/blackjack/player/stand' do
 	@success = "You've chosen to stand. Are you ready for the results?"
+	@player_total = total_calc(session[:player_cards])
 	@dealer_suspense = true
 	erb :blackjack
 end

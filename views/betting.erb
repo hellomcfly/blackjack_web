@@ -7,7 +7,7 @@
 	
 <% else %>
 	<h2>You have $<%= session[:money]%>. How much would you like to bet?</h2>
-	<div class="well well-small"  id="mine">
+	<div class="well well-small mine">
 	<br>
 	<form action = '/betting' method = 'post' >
 		<input type = 'number' name = "bet" placeholder = "Type a whole number only"/>
