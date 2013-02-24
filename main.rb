@@ -38,7 +38,7 @@ end
 post '/set_player_names' do 
 	if params['name'].empty? 
 		@error = "Must input a name, no matter how wonky!"
-		erb :set_player_names
+		halt erb(:set_player_names)
 	else
 		session[:name] = params['name']
 		session[:money] = 1000
