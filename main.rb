@@ -108,6 +108,7 @@ end
 post '/blackjack/player/hit' do 
 	session[:player_cards] << session[:deck].pop
 	@player_total = total_calc(session[:player_cards])
+	@dealer_total = total_calc(session[:dealer_cards])
 	if @player_total >= 21 
 		@game_over = true
 	end
